@@ -1,3 +1,15 @@
+'''
+Вариант 10. Доходы предприятия
+Разработать программу анализа доходов предприятия по месяцам.
+Пользователь вводит доход за каждый месяц.
+Программа должна:
+•	определить годовой доход;
+•	определить среднемесячный доход;
+•	найти наиболее прибыльный месяц;
+•	найти наименее прибыльный месяц;
+•	определить количество месяцев с доходом выше среднего.
+'''
+
 def sum_income(income):
     sum_ = 0
     for i in income.values():
@@ -7,6 +19,9 @@ def sum_income(income):
 def max_income(income):
     max_ = -1.0
     month = ''
+    # --- каждую итерацию выбирается максимальное число и обновляется месяц
+    # --- если числа равны то месяцы записываются, пока не будет найдено
+    # --- более большое число или не завершится цикл
     for key, val in income.items():
         if val > max_:
             max_ = max(val, max_)
@@ -16,7 +31,7 @@ def max_income(income):
     return month, max_
 
 def min_income(income):
-    min_ = 10.0 ** 7
+    min_ = 10.0 ** 20
     month = ''
     for key, val in income.items():
         if val < min_:
@@ -45,36 +60,66 @@ def main():
               '0 - выход',
               '==================', sep='\n')
         menu = int(input())
-        flag = False
+
+        #---если доход одинаков за каждый месяц не должно быть более и менее прибыльного месяца
+        equal_income = False
+
         if menu == 0:
             break
+
         income = dict()
-        month = ['Январь', 'Февраль','Март','Апрель','Май','Июнь','Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь']
+        month = ['Январь', 'Февраль','Март','Апрель','Май','Июнь',
+                 'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь']
+        print('Доход за месяц не должен превышать 10^20')
+
         for i in range(12):
             while True:
                 month_income = float(input(f"Доход за {month[i]} "))
-                if month_income >= 0:
+                if month_income >= 0 and month_income < 10 ** 20:
                     break
                 else:
-                    print('Доход не может быть меньше 0')
+                    print('Доход не может быть меньше 0 или больше 10^20')
             income[month[i]] = month_income
 
         print('Годовой доход = ', sum_income(income))
         print('Среднемесячный доход = ', average(income))
+
+        # --- появляется разная надпись в зависимости от того
+        # --- есть один или несколько самых прибыльных\неприбыльных
+        # --- месяцев или их нет вообще
+
         if max_income(income)[0].find(',') > 0:
             if max_income(income)[0].count(',') == 11:
                 print('Доход одинаков за каждый месяц')
+                equal_income = True
             else:
-                print('Самые прибыльные месяцы:', max_income(income)[0], '(', max_income(income)[1], ')')
+                print('Самые прибыльные месяцы:', max_income(income)[0],
+                      '(', max_income(income)[1], ')')
         else:
-            print('Самый прибыльный месяц:', max_income(income)[0], '(', max_income(income)[1], ')')
+            print('Самый прибыльный месяц:', max_income(income)[0],
+                  '(', max_income(income)[1], ')')
 
-        if min_income(income)[0].find(',') > 0:
-            print('Наименее прибыльные месяцы:', min_income(income)[0], '(', min_income(income)[1], ')')
+        if min_income(income)[0].find(',') > 0 and not equal_income:
+            print('Наименее прибыльные месяцы:', min_income(income)[0],
+                  '(', min_income(income)[1], ')')
         else:
-            print('Наименее прибыльный месяц:', min_income(income)[0], '(', min_income(income)[1], ')')
+            if not equal_income:
+                print('Наименее прибыльный месяц:', min_income(income)[0],
+                      '(', min_income(income)[1], ')')
+
         print('Количество месяцев с прибылью больше среднего', more_than_average(income))
 
 if __name__ == '__main__':
     main()
 
+'''
+⠀⠀⢀⣀⠤⠿⢤⢖⡆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⡔⢩⠂⠀⠒⠗⠈⠀⠉⠢⠄⣀⠠⠤⠄⠒⢖⡒⢒⠂⠤⢄⠀⠀⠀⠀
+⠇⠤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠈⠀⠈⠈⡨⢀⠡⡪⠢⡀⠀
+⠈⠒⠀⠤⠤⣄⡆⡂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠢⠀⢕⠱⠀
+⠀⠀⠀⠀⠀⠈⢳⣐⡐⠐⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠁⠇
+⠀⠀⠀⠀⠀⠀⠀⠑⢤⢁⠀⠆⠀⠀⠀⠀⠀⢀⢰⠀⠀⠀⡀⢄⡜⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠘⡦⠄⡷⠢⠤⠤⠤⠤⢬⢈⡇⢠⣈⣰⠎⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⣃⢸⡇⠀⠀⠀⠀⠀⠈⢪⢀⣺⡅⢈⠆⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠶⡿⠤⠚⠁⠀⠀⠀⢀⣠⡤⢺⣥⠟⢡⠃⠀
+'''

@@ -1,0 +1,7 @@
+67H   MSK   SPB   300   350
+83H   SPB   MSK   400   300
+89S   Alupino   Zverevo   67   100
+14B   Kirieshkigrad   Novochicago   138   231
+23A   Zelenograd   Novochicago   120   100
+845R   Otsuda   Tuda   98   4
+821R   Otsuda   Tuda   130   8

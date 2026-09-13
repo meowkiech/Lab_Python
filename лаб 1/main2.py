@@ -59,55 +59,64 @@ def main():
               '1 - запуск',
               '0 - выход',
               '==================', sep='\n')
-        menu = int(input())
+        menu = input()
 
         #---если доход одинаков за каждый месяц не должно быть более и менее прибыльного месяца
         equal_income = False
 
-        if menu == 0:
+        if menu == '0':
             break
+        elif menu == '1':
+            income = dict()
+            month = ['Январь', 'Февраль','Март','Апрель','Май','Июнь',
+                     'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь']
+            print('Доход за месяц не должен превышать 10^20')
 
-        income = dict()
-        month = ['Январь', 'Февраль','Март','Апрель','Май','Июнь',
-                 'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь']
-        print('Доход за месяц не должен превышать 10^20')
+            for i in range(12):
+                while True:
+                    month_income = (input(f"Доход за {month[i]} "))
+                    try:
+                        month_income = float(month_income)
+                        if month_income >= 0 and month_income < 10 ** 20:
+                            income[month[i]] = month_income
+                            break
+                        else:
+                            print('Доход не может быть меньше 0 или больше 10^20')
+                    except ValueError:
+                        print('Некорректные данные, повторите попытку')
 
-        for i in range(12):
-            while True:
-                month_income = float(input(f"Доход за {month[i]} "))
-                if month_income >= 0 and month_income < 10 ** 20:
-                    break
+
+
+            print('Годовой доход = ', sum_income(income))
+            print('Среднемесячный доход = ', average(income))
+
+            # --- появляется разная надпись в зависимости от того
+            # --- есть один или несколько самых прибыльных\неприбыльных
+            # --- месяцев или их нет вообще
+
+            if max_income(income)[0].find(',') > 0:
+                if max_income(income)[0].count(',') == 11:
+                    print('Доход одинаков за каждый месяц')
+                    equal_income = True
                 else:
-                    print('Доход не может быть меньше 0 или больше 10^20')
-            income[month[i]] = month_income
-
-        print('Годовой доход = ', sum_income(income))
-        print('Среднемесячный доход = ', average(income))
-
-        # --- появляется разная надпись в зависимости от того
-        # --- есть один или несколько самых прибыльных\неприбыльных
-        # --- месяцев или их нет вообще
-
-        if max_income(income)[0].find(',') > 0:
-            if max_income(income)[0].count(',') == 11:
-                print('Доход одинаков за каждый месяц')
-                equal_income = True
+                    print('Самые прибыльные месяцы:', max_income(income)[0],
+                          '(', max_income(income)[1], ')')
             else:
-                print('Самые прибыльные месяцы:', max_income(income)[0],
+                print('Самый прибыльный месяц:', max_income(income)[0],
                       '(', max_income(income)[1], ')')
-        else:
-            print('Самый прибыльный месяц:', max_income(income)[0],
-                  '(', max_income(income)[1], ')')
 
-        if min_income(income)[0].find(',') > 0 and not equal_income:
-            print('Наименее прибыльные месяцы:', min_income(income)[0],
-                  '(', min_income(income)[1], ')')
-        else:
-            if not equal_income:
-                print('Наименее прибыльный месяц:', min_income(income)[0],
+            if min_income(income)[0].find(',') > 0 and not equal_income:
+                print('Наименее прибыльные месяцы:', min_income(income)[0],
                       '(', min_income(income)[1], ')')
+            else:
+                if not equal_income:
+                    print('Наименее прибыльный месяц:', min_income(income)[0],
+                          '(', min_income(income)[1], ')')
 
-        print('Количество месяцев с прибылью больше среднего', more_than_average(income))
+            print('Количество месяцев с прибылью больше среднего', more_than_average(income))
+
+        else:
+            print('Неправильная команда, повторите попытку')
 
 if __name__ == '__main__':
     main()

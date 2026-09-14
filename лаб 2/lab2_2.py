@@ -120,7 +120,7 @@ def main():
             elif menu2 == '4':
                 uniq = [trains['from'] + ' - ' + trains['to'] for trains in trains ]
                 set(uniq)
-                print("Уникальные направления:", *uniq, sep='\n')
+                print("Уникальные направления:", *set(uniq), sep='\n')
                 continue
 
             elif menu2 == '5':
@@ -143,7 +143,6 @@ def main():
                 average_ = sum([int(trains['pass_num']) for trains in trains])/len(trains)
                 print(f"Среднее вместимое количество пассажиров всех рейсов: {average_}")
 
-            #---чем дальше в лес if else if else
             elif menu2 == '7':
                 continue
 

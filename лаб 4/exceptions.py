@@ -1,0 +1,2 @@
+class FuckingLessZeroPrice(Exception):
+    pass
